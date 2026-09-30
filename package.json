@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port 18464",
     "build": "tsc --noEmit -p tsconfig.app.json && vite build",
-    "preview": "vite preview --port 18464"
+    "preview": "vite preview --port 18464",
+    "check:flows": "esbuild scripts/flow-check.ts --bundle --platform=node --format=esm --outfile=/tmp/gsb64-flow.js --log-level=warning && node /tmp/gsb64-flow.js && esbuild scripts/thunk-check.ts --bundle --platform=node --format=esm --outfile=/tmp/gsb64-thunk.js --log-level=warning && node /tmp/gsb64-thunk.js"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.56.2",
