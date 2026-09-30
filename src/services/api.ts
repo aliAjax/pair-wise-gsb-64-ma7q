@@ -1,23 +1,18 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { seedBatches } from '../data/seed'
-import type { Batch } from '../types'
+import type { HaccpState } from '../types'
 
+/**
+ * 快照查询仅保留加载态指示；真实数据走版本化状态（见 engine + haccpSlice）。
+ */
 export const haccpApi = createApi({
   reducerPath: 'haccpApi',
   baseQuery: fakeBaseQuery(),
   endpoints: (builder) => ({
-    loadBatchSnapshot: builder.query<Batch[], void>({
-      queryFn: async () => ({ data: structuredClone(seedBatches) })
-    }),
-    checkReleaseReadiness: builder.query<{ ready: boolean; reasons: string[] }, { batchId: string; openDeviations: number }>({
-      queryFn: async ({ batchId, openDeviations }) => ({
-        data: {
-          ready: openDeviations === 0,
-          reasons: openDeviations === 0 ? [] : [`${batchId}仍有${openDeviations}项未关闭偏差`]
-        }
-      })
+    loadBatchSnapshot: builder.query<{ loaded: boolean }, void>({
+      queryFn: async () => ({ data: { loaded: true } })
     })
   })
 })
 
-export const { useLoadBatchSnapshotQuery, useCheckReleaseReadinessQuery } = haccpApi
+export const { useLoadBatchSnapshotQuery } = haccpApi
+export type SnapshotState = HaccpState

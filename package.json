@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port 18464",
     "build": "tsc --noEmit -p tsconfig.app.json && vite build",
-    "preview": "vite preview --port 18464"
+    "preview": "vite preview --port 18464",
+    "verify": "esbuild scripts/verify.ts --bundle --platform=node --format=esm --outfile=scripts/verify.mjs --log-level=warning && node scripts/verify.mjs"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.56.2",
